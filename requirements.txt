@@ -1,5 +1,5 @@
 streamlit
-pymupdf
+PyMuPDF
 groq
 python-dotenv
-\nreportlab\n
+reportlab
