@@ -2,9 +2,15 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.pagesizes import A4
 import datetime
+import tempfile
 
 def generate_pdf(text, images):
-    doc = SimpleDocTemplate("DDR_Report.pdf", pagesize=A4)
+    # SimpleDocTemplate opens the file by path, so we create the temp file,
+    # close it immediately to release the OS handle, and then pass the path.
+    tmp = tempfile.NamedTemporaryFile(suffix=".pdf", delete=False)
+    tmp.close()
+    output_path = tmp.name
+    doc = SimpleDocTemplate(output_path, pagesize=A4)
     styles = getSampleStyleSheet()
     elements = []
 
@@ -44,4 +50,4 @@ def generate_pdf(text, images):
                 continue
 
     doc.build(elements)
-    return "DDR_Report.pdf"
+    return output_path
